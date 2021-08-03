@@ -11,13 +11,12 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class UserRequest {
-    private String fullname;
+public class UserRequestModel {
+    private String fullName;
     private String email;
     private String phoneNumber;
     private String address;
     private Boolean gender;
-    private Long roleId;
     private String username;
     private String password;
 }
