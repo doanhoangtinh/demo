@@ -30,7 +30,6 @@ public class UserController {
 				|| userRequestModel.getFullName() == null) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
 		}
-
 		UserDTO userDTO = new UserDTO();
 		mapper.map(userRequestModel, userDTO);
 		UserDTO userCreated = userService.createUser(userDTO);
@@ -39,4 +38,5 @@ public class UserController {
 		return ResponseEntity.ok().body(userResponseModel);
 
 	}
+	
 }
