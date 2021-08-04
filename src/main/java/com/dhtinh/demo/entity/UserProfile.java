@@ -34,7 +34,7 @@ public class UserProfile {
     private Long id;
 
     @Column(name = "full_name")
-    private String fullname;
+    private String fullName;
 
     @Column(name = "email")
     private String email;

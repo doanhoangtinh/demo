@@ -19,4 +19,5 @@ public class UserRequestModel {
     private Boolean gender;
     private String username;
     private String password;
+    private Long roleId;
 }

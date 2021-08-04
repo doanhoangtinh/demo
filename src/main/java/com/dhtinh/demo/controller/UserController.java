@@ -5,6 +5,7 @@ import static com.dhtinh.demo.common.UrlConstant.USER;
 import com.dhtinh.demo.dto.UserDTO;
 import com.dhtinh.demo.model.request.UserRequestModel;
 import com.dhtinh.demo.model.response.UserResponseModel;
+import com.dhtinh.demo.service.RoleService;
 import com.dhtinh.demo.service.UserService;
 
 import org.modelmapper.ModelMapper;
@@ -21,6 +22,8 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserController {
     @Autowired
     private UserService userService;
+	@Autowired
+    private RoleService roleService;
     @Autowired
     private ModelMapper mapper;
 
@@ -31,6 +34,7 @@ public class UserController {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
 		}
 		UserDTO userDTO = new UserDTO();
+		userDTO.setRole(roleService.getRole(userRequestModel.getRoleId()));
 		mapper.map(userRequestModel, userDTO);
 		UserDTO userCreated = userService.createUser(userDTO);
 		UserResponseModel userResponseModel = new UserResponseModel();

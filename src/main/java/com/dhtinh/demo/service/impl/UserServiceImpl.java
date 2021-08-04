@@ -1,6 +1,7 @@
 package com.dhtinh.demo.service.impl;
 
 import java.util.List;
+import java.util.Optional;
 
 import com.dhtinh.demo.dto.UserDTO;
 import com.dhtinh.demo.entity.User;
@@ -35,13 +36,24 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void deleteUser(Long id) {
-        // TODO Auto-generated method stub
-        
+        Optional<User> user = userRepository.findById(id);
+        userRepository.delete(user.get());
     }
 
     @Override
     public UserDTO getUser(Long id) {
-        // TODO Auto-generated method stub
+        userRepository.findById(id);
+        return null;
+    }
+
+    @Override
+    public UserDTO getUser(String username, String password) {
+        User user = userRepository.findOneByUsernameAndPassword(username,password);
+        if(user != null){
+            UserDTO returnValue = new UserDTO();
+            mapper.map(user, returnValue);
+            return returnValue;
+        }
         return null;
     }
 

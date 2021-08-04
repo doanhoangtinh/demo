@@ -13,10 +13,10 @@ import lombok.Setter;
 @Setter
 public class UserResponseModel {
     private Long id;
-    private String fullname;
+    private String fullName;
     private String email;
     private String phoneNumber;
     private String address;
     private Boolean gender;
-    //private RoleDTO role;
+    private RoleResponseModel role;
 }

@@ -33,6 +33,6 @@ public class CommercialProject extends Project {
     private LevelDevelopment levelDevelopment;
 
     @ManyToOne
-    @JoinColumn(name = "transmission_method")
+    @JoinColumn(name = "transmission_method_id")
     private TransmissionMethod transmissionMethod;
 }

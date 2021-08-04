@@ -3,9 +3,14 @@ package com.dhtinh.demo.service.impl;
 import java.util.List;
 
 import com.dhtinh.demo.dto.StatusDTO;
+import com.dhtinh.demo.repository.StatusRepository;
 import com.dhtinh.demo.service.StatusService;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 public class StatusServiceImpl implements StatusService {
+    @Autowired
+    private StatusRepository statusRepository;
 
     @Override
     public StatusDTO createStatus(StatusDTO statusDTO) {
@@ -15,7 +20,7 @@ public class StatusServiceImpl implements StatusService {
 
     @Override
     public void deleteStatus(Long id) {
-        // TODO Auto-generated method stub
+       // statusRepository.delete();
         
     }
 
