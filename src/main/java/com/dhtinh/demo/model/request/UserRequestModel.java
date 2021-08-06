@@ -25,7 +25,6 @@ public class UserRequestModel {
     private String phoneNumber;
     @NotEmpty
     private String address;
-    @NotEmpty
     private Boolean gender;
     @NotBlank
     private String username;
