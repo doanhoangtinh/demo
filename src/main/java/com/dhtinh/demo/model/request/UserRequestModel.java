@@ -30,6 +30,5 @@ public class UserRequestModel {
     private String username;
     @NotBlank
     private String password;
-    @NotBlank
     private Long roleId;
 }
