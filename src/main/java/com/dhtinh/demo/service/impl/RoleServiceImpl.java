@@ -1,5 +1,6 @@
 package com.dhtinh.demo.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.dhtinh.demo.dto.RoleDTO;
@@ -8,6 +9,7 @@ import com.dhtinh.demo.repository.RoleRepository;
 import com.dhtinh.demo.service.RoleService;
 
 import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -42,14 +44,21 @@ public class RoleServiceImpl implements RoleService {
     @Override
     public RoleDTO getRole(Long id) {
         Role role = roleRepository.findOneById(id);
-        RoleDTO returnValue = new RoleDTO();
-        mapper.map(role, returnValue);
-        return returnValue;
+        if(role != null){
+            RoleDTO returnValue = new RoleDTO();
+            mapper.map(role, returnValue);
+            return returnValue;
+        }
+        return null;
     }
 
     @Override
     public List<RoleDTO> getRoles() {
-        // TODO Auto-generated method stub
+        List<Role> roles = roleRepository.findAll();
+        if(roles.size()>0){
+            List<RoleDTO> returnValue = mapper.map(roles, new TypeToken<List<RoleDTO>>(){}.getType());
+            return returnValue;
+        }
         return null;
     }
 

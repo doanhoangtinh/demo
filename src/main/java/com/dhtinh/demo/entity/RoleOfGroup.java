@@ -27,12 +27,13 @@ import lombok.Setter;
 public class RoleOfGroup {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(columnDefinition = "tinyint")
     private Long id;
     
-    @Column(name = "code")
+    @Column(name = "code", columnDefinition = "varchar(8) unique not null")
     private String code;
      
-    @Column(name = "name")
+    @Column(name = "name", columnDefinition = "nvarchar(16) not null")
     private String name;
 
     @OneToMany(mappedBy = "roleOfGroup")

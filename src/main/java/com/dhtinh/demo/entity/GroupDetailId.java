@@ -18,9 +18,9 @@ import lombok.Setter;
 @Getter
 @Setter
 public class GroupDetailId implements Serializable {
-    @Column(name = "user_profile_id")
+    @Column(name = "user_profile_id", columnDefinition = "tinyint")
     private Long userProfileId;
     
-    @Column(name = "group_id")
+    @Column(name = "group_id", columnDefinition = "tinyint")
     private Long groupId; 
 }

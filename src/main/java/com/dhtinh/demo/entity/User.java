@@ -19,10 +19,10 @@ import lombok.Setter;
 @PrimaryKeyJoinColumn(referencedColumnName = "id",name = "user_profile_id")
 public class User extends UserProfile {
 
-    @Column(name = "username")
+    @Column(name = "username", columnDefinition = "varchar(16) unique not null")
     private String username;
 
-    @Column(name = "password")
+    @Column(name = "password", columnDefinition = "varchar(256) not null")
     private String password;
 
 }

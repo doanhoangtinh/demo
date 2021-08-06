@@ -24,6 +24,6 @@ public class GroupDetail {
     private GroupDetailId id;
 
     @ManyToOne
-    @JoinColumn(name = "role_of_group_id")
+    @JoinColumn(name = "role_of_group_id", nullable = false)
     private RoleOfGroup roleOfGroup;
 }

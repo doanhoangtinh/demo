@@ -6,11 +6,14 @@ import com.dhtinh.demo.model.response.UserResponseModel;
 import com.dhtinh.demo.service.UserService;
 import static com.dhtinh.demo.common.UrlConstant.LOGIN;
 
+import javax.validation.Valid;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.properties.bind.BindResult;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -27,11 +30,13 @@ public class LoginController {
 
     @CrossOrigin
     @PostMapping
-    public ResponseEntity<UserResponseModel> login(@RequestBody LoginRequestModel loginRequestModel) {
-        if (loginRequestModel.getUsername() == null || loginRequestModel.getPassword() == null) {
+    public ResponseEntity<UserResponseModel> login(@RequestBody @Valid LoginRequestModel loginRequestModel, BindingResult bindingResult) {
+       
+        if(bindingResult.hasErrors()){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
         UserDTO userDTO = userService.getUser(loginRequestModel.getUsername(), loginRequestModel.getPassword());
+
         if (userDTO == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
