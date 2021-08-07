@@ -35,8 +35,8 @@ public class Project {
     @GeneratedValue(strategy =GenerationType.IDENTITY)
     private Long id;
     
-    @Column(name = "code", columnDefinition = "varchar(16) unique not null")
-    private String code;
+    // @Column(name = "code", columnDefinition = "varchar(16) unique not null")
+    // private String code;
      
     @Column(name = "name", columnDefinition = "nvarchar(1024) not null")
     private String name;
@@ -44,8 +44,8 @@ public class Project {
     @Column(name = "short_description", columnDefinition = "text not null")
     private String shortDescription;
 
-    @Column(name = "date", columnDefinition = "datetime not null")
-    private Date date;
+    // @Column(name = "date", columnDefinition = "datetime not null")
+    // private Date date;
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)

@@ -7,5 +7,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface CommercialProjectRepository extends JpaRepository<CommercialProject,Long> {
-    
+    public CommercialProject findOneById(Long id);
 }

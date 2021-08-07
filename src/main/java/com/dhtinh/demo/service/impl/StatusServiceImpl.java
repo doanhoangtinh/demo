@@ -3,19 +3,32 @@ package com.dhtinh.demo.service.impl;
 import java.util.List;
 
 import com.dhtinh.demo.dto.StatusDTO;
+import com.dhtinh.demo.entity.Status;
 import com.dhtinh.demo.repository.StatusRepository;
 import com.dhtinh.demo.service.StatusService;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+@Service
 public class StatusServiceImpl implements StatusService {
     @Autowired
     private StatusRepository statusRepository;
+    @Autowired
+    private ModelMapper mapper;
 
     @Override
     public StatusDTO createStatus(StatusDTO statusDTO) {
-        // TODO Auto-generated method stub
-        return null;
+        Status status = new Status();
+        mapper.map(statusDTO, status);
+        Status statusCreated = statusRepository.save(status);
+        if(statusCreated != null){
+            StatusDTO returnValue = new StatusDTO();
+            mapper.map(statusCreated, returnValue);
+            return returnValue;
+        }
+		return null;
     }
 
     @Override
@@ -26,7 +39,12 @@ public class StatusServiceImpl implements StatusService {
 
     @Override
     public StatusDTO getStatus(Long id) {
-        // TODO Auto-generated method stub
+        Status status = statusRepository.findOneById(id);
+        if(status != null){
+            StatusDTO returnValue = new StatusDTO();
+            mapper.map(status, returnValue);
+            return returnValue;
+        }
         return null;
     }
 

@@ -17,7 +17,7 @@ import lombok.Setter;
 @Setter
 public class ProjectDTO {
     private Long id;
-    private String code;
+//    private String code;
     private String name;
     private String shortDescription;
     private Date date;

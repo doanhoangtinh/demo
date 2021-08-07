@@ -3,14 +3,33 @@ package com.dhtinh.demo.service.impl;
 import java.util.List;
 
 import com.dhtinh.demo.dto.FieldDTO;
+import com.dhtinh.demo.entity.Field;
+import com.dhtinh.demo.repository.FieldRepository;
 import com.dhtinh.demo.service.FieldService;
 
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+
+@Service
 public class FieldServiceImpl implements FieldService {
+    @Autowired
+    private FieldRepository fieldRepository;
+    @Autowired
+    private ModelMapper mapper;
 
     @Override
     public FieldDTO createField(FieldDTO fieldDTO) {
-        // TODO Auto-generated method stub
-        return null;
+        Field field = new Field();
+        mapper.map(fieldDTO, field);
+        Field fieldCreated = fieldRepository.save(field);
+        if(fieldCreated != null){
+            FieldDTO returnValue = new FieldDTO();
+            mapper.map(fieldCreated, returnValue);
+            return returnValue;
+        }
+		return null;
     }
 
     @Override
@@ -21,7 +40,12 @@ public class FieldServiceImpl implements FieldService {
 
     @Override
     public FieldDTO getField(Long id) {
-        // TODO Auto-generated method stub
+        Field field = fieldRepository.findOneById(id);
+        if(field != null){
+            FieldDTO returnValue = new FieldDTO();
+            mapper.map(field, returnValue);
+            return returnValue;
+        }
         return null;
     }
 
