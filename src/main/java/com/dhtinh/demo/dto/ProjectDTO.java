@@ -20,7 +20,13 @@ public class ProjectDTO {
 //    private String code;
     private String name;
     private String shortDescription;
-    private Date date;
+    private String address;
+    private String companyName;
+    private String phoneNumber;
+    private String email;
+    private String author;
+    private String website;
+    //private Date date;
     private UserProfileDTO user;
     private UserProfileDTO inspector;
     private FieldDTO field;

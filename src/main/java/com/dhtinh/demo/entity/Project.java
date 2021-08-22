@@ -43,6 +43,24 @@ public class Project {
     @Column(name = "short_description")
     private String shortDescription;
 
+    @Column(name = "address")
+    private String address;
+
+    @Column(name = "company_name")
+    private String companyName;
+
+    @Column(name = "phone_number")
+    private String phoneNumber;
+
+    @Column(name = "email")
+    private String email;
+
+    @Column(name = "author")
+    private String author;
+
+    @Column(name = "website")
+    private String website;
+
     // @Column(name = "date", columnDefinition = "datetime not null")
     // private Date date;
 

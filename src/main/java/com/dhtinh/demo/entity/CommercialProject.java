@@ -28,6 +28,9 @@ public class CommercialProject extends Project {
     @Column(name = "scope")
     private String scope;
 
+    @Column(name = "price")
+    private String price;
+
     @ManyToOne
     @JoinColumn(name = "level_development_id")
     private LevelDevelopment levelDevelopment;

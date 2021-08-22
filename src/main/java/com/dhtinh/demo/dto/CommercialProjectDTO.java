@@ -13,6 +13,7 @@ public class CommercialProjectDTO extends ProjectDTO {
     private String process;
     private String advantage;
     private String scope;
-    private LevelDevelopmentDTO levelDevelopmentDTO;
-    private TransmissionMethodDTO transmissionMethodDTO;
+    private String price;
+    private LevelDevelopmentDTO levelDevelopment;
+    private TransmissionMethodDTO transmissionMethod;
 }
