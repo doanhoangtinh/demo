@@ -1,6 +1,5 @@
 package com.dhtinh.demo.entity;
 
-import java.sql.Date;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -38,17 +37,17 @@ public class Project {
     // @Column(name = "code", columnDefinition = "varchar(16) unique not null")
     // private String code;
      
-    @Column(name = "name", columnDefinition = "nvarchar(1024) not null")
+    @Column(name = "name")
     private String name;
 
-    @Column(name = "short_description", columnDefinition = "text not null")
+    @Column(name = "short_description")
     private String shortDescription;
 
     // @Column(name = "date", columnDefinition = "datetime not null")
     // private Date date;
 
     @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
+    @JoinColumn(name = "user_id")
     private UserProfile user;
 
     @ManyToOne
@@ -56,11 +55,11 @@ public class Project {
     private UserProfile inspector;
 
     @ManyToOne
-    @JoinColumn(name = "field_id", nullable = false)
+    @JoinColumn(name = "field_id")
     private Field field;
 
     @ManyToOne
-    @JoinColumn(name = "status_id", nullable = false)
+    @JoinColumn(name = "status_id")
     private Status status;
 
     @OneToMany(mappedBy = "project")

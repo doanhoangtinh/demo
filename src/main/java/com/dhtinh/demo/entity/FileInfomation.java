@@ -27,13 +27,13 @@ public class FileInfomation {
     @GeneratedValue(strategy =GenerationType.IDENTITY)
     private Long id;
     
-    @Column(name = "code", columnDefinition = "varchar(16) unique not null")
+    @Column(name = "code")
     private String code;
      
-    @Column(name = "url", columnDefinition = "varchar(64) not null")
+    @Column(name = "url")
     private String url;
 
     @ManyToOne
-    @JoinColumn(name = "project_id", nullable = false)
+    @JoinColumn(name = "project_id")
     private Project project;
 }

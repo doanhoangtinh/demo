@@ -5,9 +5,9 @@ import java.util.List;
 import com.dhtinh.demo.dto.TransmissionMethodDTO;
 
 public interface TransmissionMethodService {
-    public TransmissionMethodDTO getTransmissionMedthod(Long id);
-    public List<TransmissionMethodDTO> getTransmissionMedthods();
-    public TransmissionMethodDTO createTransmissionMedthod(TransmissionMethodDTO transmissionMethodDTO);
-    public TransmissionMethodDTO updateTransmissionMedthod(Long id, TransmissionMethodDTO transmissionMethodDTO);
-    public void deleteTransmissionMedthod(Long id);
+    public TransmissionMethodDTO getTransmissionMethod(Long id);
+    public List<TransmissionMethodDTO> getTransmissionMethods();
+    public TransmissionMethodDTO createTransmissionMethod(TransmissionMethodDTO transmissionMethodDTO);
+    public TransmissionMethodDTO updateTransmissionMethod(Long id, TransmissionMethodDTO transmissionMethodDTO);
+    public void deleteTransmissionMethod(Long id);
 }

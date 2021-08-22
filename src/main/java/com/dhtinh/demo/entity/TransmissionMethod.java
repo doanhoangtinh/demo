@@ -26,13 +26,12 @@ import lombok.Setter;
 public class TransmissionMethod {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(columnDefinition = "tinyint")
     private Long id;
     
-    @Column(name = "code", columnDefinition = "varchar(8) unique not null")
+    @Column(name = "code")
     private String code;
      
-    @Column(name = "name", columnDefinition = "nvarchar(16) not null")
+    @Column(name = "name")
     private String name;
 
     @OneToMany(mappedBy = "transmissionMethod")

@@ -6,6 +6,10 @@ public class UrlConstant {
     public static final String  USER = ROOT + "/user";
     public static final String  LOGIN = USER + "/login";
     public static final String  ROLE = ROOT + "/role";
+    public static final String  STATUS = ROOT + "/status";
+    public static final String  FIELD = ROOT + "/field";
+    public static final String  TRANSMISSIONMETHOD = ROOT + "/transmissionmethod";
+    public static final String  LEVELDEVELOPMENT = ROOT + "/leveldevelopment";
     public static final String  PROJECT = ROOT + "/project";
     // public static final String  UPDATE_USER = ROOT + "/user/update-user";
     // public static final String  DELETE_USER = ROOT + "/user/delete-user";

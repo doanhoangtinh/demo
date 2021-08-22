@@ -33,23 +33,23 @@ public class UserProfile {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "full_name", columnDefinition = "nvarchar(32) not null")
+    @Column(name = "full_name")
     private String fullName;
 
-    @Column(name = "email", columnDefinition = "varchar(64) not null")
+    @Column(name = "email")
     private String email;
 
-    @Column(name = "phone_number", columnDefinition = "varchar(10) not null ")
+    @Column(name = "phone_number")
     private String phoneNumber;
 
-    @Column(name = "address", columnDefinition = "nvarchar(256) not null")
+    @Column(name = "address")
     private String address;
 
-    @Column(name = "gender", columnDefinition = "bit(1) not null default true")
+    @Column(name = "gender")
     private Boolean gender;
 
     @ManyToOne
-    @JoinColumn(name = "role_id", nullable = false)
+    @JoinColumn(name = "role_id")
     private Role role;
 
     @OneToMany(mappedBy = "user")

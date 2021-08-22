@@ -19,20 +19,20 @@ import lombok.Setter;
 @Setter
 public class CommercialProject extends Project {
 
-    @Column(name = "process", columnDefinition = "text not null")
+    @Column(name = "process")
     private String process;
 
-    @Column(name = "advantage", columnDefinition = "text not null")
+    @Column(name = "advantage")
     private String advantage;
 
-    @Column(name = "scope", columnDefinition = "text not null")
+    @Column(name = "scope")
     private String scope;
 
     @ManyToOne
-    @JoinColumn(name = "level_development_id", nullable = false)
+    @JoinColumn(name = "level_development_id")
     private LevelDevelopment levelDevelopment;
 
     @ManyToOne
-    @JoinColumn(name = "transmission_method_id", nullable = false)
+    @JoinColumn(name = "transmission_method_id")
     private TransmissionMethod transmissionMethod;
 }

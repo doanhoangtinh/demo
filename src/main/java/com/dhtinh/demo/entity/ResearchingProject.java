@@ -16,13 +16,13 @@ import lombok.Setter;
 @Getter
 @Setter
 public class ResearchingProject extends Project {
-    @Column(name = "challenge", columnDefinition = "text not null")
+    @Column(name = "challenge")
     private String challenge;
 
-    @Column(name = "solution", columnDefinition = "text not null")
+    @Column(name = "solution")
     private String solution;
 
-    @Column(name = "benefit", columnDefinition = "text not null")
+    @Column(name = "benefit")
     private String benefit;
     
 }

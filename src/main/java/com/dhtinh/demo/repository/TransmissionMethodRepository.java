@@ -7,5 +7,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface TransmissionMethodRepository extends JpaRepository<TransmissionMethod,Long> {
-    
+    public TransmissionMethod findOneById(Long id);
 }
