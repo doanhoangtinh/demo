@@ -145,7 +145,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-
 @RestController
 @RequestMapping(PROJECT)
 public class SubmitCommercialProjectController {
@@ -167,7 +166,7 @@ public class SubmitCommercialProjectController {
     private UserProfileService userProfileService;
     @Autowired
     private FileStorageService fileStorageService;
-    
+
     @CrossOrigin
     @PostMapping
     public ResponseEntity<CommercialResponseModel> createCommercialProject(
@@ -176,15 +175,14 @@ public class SubmitCommercialProjectController {
         mapper.map(commercialRequestModel, commercialProjectDTO);
         commercialProjectDTO.setUser(userProfileService.getUserProfile(commercialRequestModel.getUser()));
         commercialProjectDTO.setField(fieldService.getField(commercialRequestModel.getField()));
-       // System.out.println(commercialProjectDTO.getField());
+        // System.out.println(commercialProjectDTO.getField());
         commercialProjectDTO.setStatus(statusService.getStatus(commercialRequestModel.getStatus()));
         commercialProjectDTO.setLevelDevelopment(
                 levelDevelopmentService.getLevelDevelopment(commercialRequestModel.getLevelDevelopment()));
         commercialProjectDTO.setTransmissionMethod(
                 transmissionMethodService.getTransmissionMethod(commercialRequestModel.getTransmissionMethod()));
-        //System.out.println(commercialProjectDTO);
-        CommercialProjectDTO commercialCreated =
-        commercialProjectService.createCommercialProject(commercialProjectDTO);
+        // System.out.println(commercialProjectDTO);
+        CommercialProjectDTO commercialCreated = commercialProjectService.createCommercialProject(commercialProjectDTO);
 
         // List<String> url = new ArrayList<>();
 
@@ -199,12 +197,24 @@ public class SubmitCommercialProjectController {
         // }
 
         if (commercialCreated == null) {
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
-        CommercialResponseModel commercialResponseModel = new
-        CommercialResponseModel();
+        CommercialResponseModel commercialResponseModel = new CommercialResponseModel();
         mapper.map(commercialCreated, commercialResponseModel);
         // commercialResponseModel.setFile(url);
+        return ResponseEntity.ok().body(commercialResponseModel);
+    }
+
+    @CrossOrigin
+    @GetMapping("/{id}")
+    public ResponseEntity<CommercialResponseModel> getCommercialProject(@PathVariable Long id) {
+        CommercialProjectDTO commercialProjectDTO = commercialProjectService.getCommercialProject(id);
+        commercialProjectService.createCommercialProject(commercialProjectDTO);
+        if (commercialProjectDTO == null) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
+        CommercialResponseModel commercialResponseModel = new CommercialResponseModel();
+        mapper.map(commercialProjectDTO, commercialResponseModel);
         return ResponseEntity.ok().body(commercialResponseModel);
     }
 
