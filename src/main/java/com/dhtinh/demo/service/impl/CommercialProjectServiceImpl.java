@@ -8,6 +8,7 @@ import com.dhtinh.demo.repository.CommercialProjectRepository;
 import com.dhtinh.demo.service.CommercialProjectService;
 
 import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -50,7 +51,11 @@ public class CommercialProjectServiceImpl implements CommercialProjectService {
 
     @Override
     public List<CommercialProjectDTO> getCommercialProjects() {
-        // TODO Auto-generated method stub
+        List<CommercialProject> commercialProjects = commercialProjectRepository.findAll();
+        if(commercialProjects.size()>0){
+            List<CommercialProjectDTO> returnValue = mapper.map(commercialProjects, new TypeToken<List<CommercialProjectDTO>>(){}.getType());
+            return returnValue;
+        }
         return null;
     }
 

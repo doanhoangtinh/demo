@@ -128,6 +128,7 @@ import com.dhtinh.demo.service.UserProfileService;
 import com.dhtinh.demo.service.UserService;
 
 import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
@@ -217,6 +218,18 @@ public class SubmitCommercialProjectController {
         mapper.map(commercialProjectDTO, commercialResponseModel);
         return ResponseEntity.ok().body(commercialResponseModel);
     }
+
+
+    @CrossOrigin
+	@GetMapping
+	public ResponseEntity<List<CommercialResponseModel>> getCommercialProjects() {
+		List<CommercialProjectDTO> commercialProjectDTOs  = commercialProjectService.getCommercialProjects();
+	 	if(commercialProjectDTOs == null){
+	 		return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+	 	}
+	 	List<CommercialResponseModel> commercialResponseModels = mapper.map(commercialProjectDTOs, new TypeToken<List<CommercialResponseModel>>(){}.getType());
+             return ResponseEntity.ok().body(commercialResponseModels);
+	 }
 
     @GetMapping("/download/{filename:.+}")
     @ResponseBody
