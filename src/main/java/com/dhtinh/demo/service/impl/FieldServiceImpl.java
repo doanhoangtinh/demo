@@ -8,6 +8,7 @@ import com.dhtinh.demo.repository.FieldRepository;
 import com.dhtinh.demo.service.FieldService;
 
 import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -51,7 +52,11 @@ public class FieldServiceImpl implements FieldService {
 
     @Override
     public List<FieldDTO> getFields() {
-        // TODO Auto-generated method stub
+        List<Field> fields = fieldRepository.findAll();
+        if(fields.size()>0){
+            List<FieldDTO> returnValue = mapper.map(fields, new TypeToken<List<FieldDTO>>(){}.getType());
+            return returnValue;
+        }
         return null;
     }
 

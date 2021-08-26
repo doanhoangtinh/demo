@@ -8,6 +8,7 @@ import com.dhtinh.demo.repository.TransmissionMethodRepository;
 import com.dhtinh.demo.service.TransmissionMethodService;
 
 import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -51,7 +52,11 @@ public class TransmissionMethodServiceImpl implements TransmissionMethodService 
 
     @Override
     public List<TransmissionMethodDTO> getTransmissionMethods() {
-        // TODO Auto-generated method stub
+        List<TransmissionMethod> transmissionMethods = transmissionMethodRepository.findAll();
+        if(transmissionMethods.size()>0){
+            List<TransmissionMethodDTO> returnValue = mapper.map(transmissionMethods, new TypeToken<List<TransmissionMethodDTO>>(){}.getType());
+            return returnValue;
+        }
         return null;
     }
 

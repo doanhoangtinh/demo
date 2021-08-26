@@ -116,6 +116,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.dhtinh.demo.dto.CommercialProjectDTO;
+import com.dhtinh.demo.dto.StatusDTO;
+import com.dhtinh.demo.dto.UserProfileDTO;
 import com.dhtinh.demo.model.request.CommercialRequestModel;
 import com.dhtinh.demo.model.response.CommercialResponseModel;
 import com.dhtinh.demo.service.CommercialProjectService;
@@ -230,6 +232,21 @@ public class SubmitCommercialProjectController {
 	 	List<CommercialResponseModel> commercialResponseModels = mapper.map(commercialProjectDTOs, new TypeToken<List<CommercialResponseModel>>(){}.getType());
              return ResponseEntity.ok().body(commercialResponseModels);
 	 }
+
+
+     @CrossOrigin
+     @GetMapping("/user/{userId}/status/{statusId}")
+     public ResponseEntity<List<CommercialResponseModel>> getCommercialProjects(@PathVariable Long userId,@PathVariable Long statusId) {
+         UserProfileDTO userProfileDTO = userProfileService.getUserProfile(userId);
+         StatusDTO statusDTO = statusService.getStatus(statusId);
+         List<CommercialProjectDTO> commercialProjectDTOs  = commercialProjectService.getCommercialProjects(userProfileDTO,statusDTO);
+          if(commercialProjectDTOs == null){
+              return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+          }
+          List<CommercialResponseModel> commercialResponseModels = mapper.map(commercialProjectDTOs, new TypeToken<List<CommercialResponseModel>>(){}.getType());
+              return ResponseEntity.ok().body(commercialResponseModels);
+      }
+ 
 
     @GetMapping("/download/{filename:.+}")
     @ResponseBody

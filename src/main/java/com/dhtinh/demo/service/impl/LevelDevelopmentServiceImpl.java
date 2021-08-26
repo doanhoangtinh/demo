@@ -8,6 +8,7 @@ import com.dhtinh.demo.repository.LevelDevelopmentRepository;
 import com.dhtinh.demo.service.LevelDevelopmentService;
 
 import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -51,7 +52,11 @@ public class LevelDevelopmentServiceImpl implements LevelDevelopmentService{
 
     @Override
     public List<LevelDevelopmentDTO> getLevelDevelopments() {
-        // TODO Auto-generated method stub
+        List<LevelDevelopment> levelDevelopments = levelDevelopmentRepository.findAll();
+        if(levelDevelopments.size()>0){
+            List<LevelDevelopmentDTO> returnValue = mapper.map(levelDevelopments, new TypeToken<List<LevelDevelopmentDTO>>(){}.getType());
+            return returnValue;
+        }
         return null;
     }
 

@@ -8,6 +8,7 @@ import com.dhtinh.demo.repository.StatusRepository;
 import com.dhtinh.demo.service.StatusService;
 
 import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -50,7 +51,11 @@ public class StatusServiceImpl implements StatusService {
 
     @Override
     public List<StatusDTO> getStatuses() {
-        // TODO Auto-generated method stub
+        List<Status> statuses = statusRepository.findAll();
+        if(statuses.size()>0){
+            List<StatusDTO> returnValue = mapper.map(statuses, new TypeToken<List<StatusDTO>>(){}.getType());
+            return returnValue;
+        }
         return null;
     }
 

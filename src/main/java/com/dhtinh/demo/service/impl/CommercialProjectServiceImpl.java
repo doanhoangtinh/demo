@@ -3,7 +3,11 @@ package com.dhtinh.demo.service.impl;
 import java.util.List;
 
 import com.dhtinh.demo.dto.CommercialProjectDTO;
+import com.dhtinh.demo.dto.StatusDTO;
+import com.dhtinh.demo.dto.UserProfileDTO;
 import com.dhtinh.demo.entity.CommercialProject;
+import com.dhtinh.demo.entity.Status;
+import com.dhtinh.demo.entity.UserProfile;
 import com.dhtinh.demo.repository.CommercialProjectRepository;
 import com.dhtinh.demo.service.CommercialProjectService;
 
@@ -62,6 +66,20 @@ public class CommercialProjectServiceImpl implements CommercialProjectService {
     @Override
     public CommercialProjectDTO updateCommercialProject(Long id, CommercialProjectDTO commercialProjectDTO) {
         // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public List<CommercialProjectDTO> getCommercialProjects(UserProfileDTO userProfileDTO, StatusDTO StatusDTO) {
+        UserProfile userProfile = new UserProfile();
+        mapper.map(userProfileDTO, userProfile);
+        Status status = new Status();
+        mapper.map(StatusDTO, status);
+        List<CommercialProject> commercialProjects = commercialProjectRepository.findByUserAndStatus(userProfile, status);
+        if(commercialProjects.size()>0){
+            List<CommercialProjectDTO> returnValue = mapper.map(commercialProjects, new TypeToken<List<CommercialProjectDTO>>(){}.getType());
+            return returnValue;
+        }
         return null;
     }
     
