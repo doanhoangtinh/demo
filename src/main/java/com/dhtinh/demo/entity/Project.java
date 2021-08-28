@@ -1,11 +1,11 @@
 package com.dhtinh.demo.entity;
 
+import java.sql.Timestamp;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
+import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -15,6 +15,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -31,6 +34,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
+@EntityListeners(AuditingEntityListener.class)
 public class Project {
     @Id
     @GeneratedValue(strategy =GenerationType.IDENTITY)
@@ -63,10 +67,11 @@ public class Project {
     @Column(name = "website")
     private String website;
 
-    // @Column(name = "date", columnDefinition = "datetime not null")
-    // private Date date;
+    @CreatedDate
+    @Column(name = "date")
+    private Timestamp date;
 
-    @ManyToOne
+    @ManyToOne()
     @JoinColumn(name = "user_id")
     private UserProfile user;
 

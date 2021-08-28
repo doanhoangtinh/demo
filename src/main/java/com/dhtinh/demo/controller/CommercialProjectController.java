@@ -141,6 +141,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -150,7 +151,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 @RestController
 @RequestMapping(PROJECT)
-public class SubmitCommercialProjectController {
+public class CommercialProjectController {
     @Autowired
     private CommercialProjectService commercialProjectService;
     @Autowired
@@ -178,33 +179,41 @@ public class SubmitCommercialProjectController {
         mapper.map(commercialRequestModel, commercialProjectDTO);
         commercialProjectDTO.setUser(userProfileService.getUserProfile(commercialRequestModel.getUser()));
         commercialProjectDTO.setField(fieldService.getField(commercialRequestModel.getField()));
-        // System.out.println(commercialProjectDTO.getField());
         commercialProjectDTO.setStatus(statusService.getStatus(commercialRequestModel.getStatus()));
         commercialProjectDTO.setLevelDevelopment(
                 levelDevelopmentService.getLevelDevelopment(commercialRequestModel.getLevelDevelopment()));
         commercialProjectDTO.setTransmissionMethod(
                 transmissionMethodService.getTransmissionMethod(commercialRequestModel.getTransmissionMethod()));
-        // System.out.println(commercialProjectDTO);
         CommercialProjectDTO commercialCreated = commercialProjectService.createCommercialProject(commercialProjectDTO);
-
-        // List<String> url = new ArrayList<>();
-
-        // for (MultipartFile multipartFile : files) {
-        // System.out.println(multipartFile);
-        // fileStorageService.store(multipartFile);
-        // String uri =
-        // ServletUriComponentsBuilder.fromCurrentContextPath().path(PROJECT+"/download/")
-        // .path(multipartFile.getOriginalFilename()).toUriString();
-        // url.add(uri);
-
-        // }
 
         if (commercialCreated == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
         CommercialResponseModel commercialResponseModel = new CommercialResponseModel();
         mapper.map(commercialCreated, commercialResponseModel);
-        // commercialResponseModel.setFile(url);
+        return ResponseEntity.ok().body(commercialResponseModel);
+    }
+
+    @CrossOrigin
+    @PutMapping("/{id}")
+    public ResponseEntity<CommercialResponseModel> updateCommercialProject(@PathVariable Long id,
+            @RequestBody CommercialRequestModel commercialRequestModel) {
+        CommercialProjectDTO commercialProjectDTO = new CommercialProjectDTO();
+        mapper.map(commercialRequestModel, commercialProjectDTO);
+        commercialProjectDTO.setUser(userProfileService.getUserProfile(commercialRequestModel.getUser()));
+        commercialProjectDTO.setField(fieldService.getField(commercialRequestModel.getField()));
+        commercialProjectDTO.setStatus(statusService.getStatus(commercialRequestModel.getStatus()));
+        commercialProjectDTO.setLevelDevelopment(
+                levelDevelopmentService.getLevelDevelopment(commercialRequestModel.getLevelDevelopment()));
+        commercialProjectDTO.setTransmissionMethod(
+                transmissionMethodService.getTransmissionMethod(commercialRequestModel.getTransmissionMethod()));
+                CommercialProjectDTO commercialUpdated = commercialProjectService.updateCommercialProject(id, commercialProjectDTO);
+
+        if (commercialUpdated == null) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
+        CommercialResponseModel commercialResponseModel = new CommercialResponseModel();
+        mapper.map(commercialUpdated, commercialResponseModel);
         return ResponseEntity.ok().body(commercialResponseModel);
     }
 
@@ -221,32 +230,35 @@ public class SubmitCommercialProjectController {
         return ResponseEntity.ok().body(commercialResponseModel);
     }
 
+    @CrossOrigin
+    @GetMapping
+    public ResponseEntity<List<CommercialResponseModel>> getCommercialProjects() {
+        List<CommercialProjectDTO> commercialProjectDTOs = commercialProjectService.getCommercialProjects();
+        if (commercialProjectDTOs == null) {
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        }
+        List<CommercialResponseModel> commercialResponseModels = mapper.map(commercialProjectDTOs,
+                new TypeToken<List<CommercialResponseModel>>() {
+                }.getType());
+        return ResponseEntity.ok().body(commercialResponseModels);
+    }
 
     @CrossOrigin
-	@GetMapping
-	public ResponseEntity<List<CommercialResponseModel>> getCommercialProjects() {
-		List<CommercialProjectDTO> commercialProjectDTOs  = commercialProjectService.getCommercialProjects();
-	 	if(commercialProjectDTOs == null){
-	 		return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-	 	}
-	 	List<CommercialResponseModel> commercialResponseModels = mapper.map(commercialProjectDTOs, new TypeToken<List<CommercialResponseModel>>(){}.getType());
-             return ResponseEntity.ok().body(commercialResponseModels);
-	 }
-
-
-     @CrossOrigin
-     @GetMapping("/user/{userId}/status/{statusId}")
-     public ResponseEntity<List<CommercialResponseModel>> getCommercialProjects(@PathVariable Long userId,@PathVariable Long statusId) {
-         UserProfileDTO userProfileDTO = userProfileService.getUserProfile(userId);
-         StatusDTO statusDTO = statusService.getStatus(statusId);
-         List<CommercialProjectDTO> commercialProjectDTOs  = commercialProjectService.getCommercialProjects(userProfileDTO,statusDTO);
-          if(commercialProjectDTOs == null){
-              return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-          }
-          List<CommercialResponseModel> commercialResponseModels = mapper.map(commercialProjectDTOs, new TypeToken<List<CommercialResponseModel>>(){}.getType());
-              return ResponseEntity.ok().body(commercialResponseModels);
-      }
- 
+    @GetMapping("/user/{userId}/status/{statusId}")
+    public ResponseEntity<List<CommercialResponseModel>> getCommercialProjects(@PathVariable Long userId,
+            @PathVariable Long statusId) {
+        UserProfileDTO userProfileDTO = userProfileService.getUserProfile(userId);
+        StatusDTO statusDTO = statusService.getStatus(statusId);
+        List<CommercialProjectDTO> commercialProjectDTOs = commercialProjectService
+                .getCommercialProjects(userProfileDTO, statusDTO);
+        if (commercialProjectDTOs == null) {
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        }
+        List<CommercialResponseModel> commercialResponseModels = mapper.map(commercialProjectDTOs,
+                new TypeToken<List<CommercialResponseModel>>() {
+                }.getType());
+        return ResponseEntity.ok().body(commercialResponseModels);
+    }
 
     @GetMapping("/download/{filename:.+}")
     @ResponseBody

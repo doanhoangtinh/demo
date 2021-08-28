@@ -1,14 +1,13 @@
 package com.dhtinh.demo.service.impl;
 
 import java.util.List;
-import java.util.Optional;
-
 import com.dhtinh.demo.dto.UserDTO;
 import com.dhtinh.demo.entity.User;
 import com.dhtinh.demo.repository.UserRepository;
 import com.dhtinh.demo.service.UserService;
 
 import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -36,8 +35,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void deleteUser(Long id) {
-        Optional<User> user = userRepository.findById(id);
-        userRepository.delete(user.get());
+        User user = userRepository.findOneById(id);
+        userRepository.delete(user);
     }
 
     @Override
@@ -59,7 +58,11 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<UserDTO> getUsers() {
-        // TODO Auto-generated method stub
+        List<User> users = userRepository.findAll();
+        if(users.size()>0){
+            List<UserDTO> returnValue = mapper.map(users, new TypeToken<List<UserDTO>>(){}.getType());
+            return returnValue;
+        }
         return null;
     }
 

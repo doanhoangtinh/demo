@@ -65,8 +65,17 @@ public class CommercialProjectServiceImpl implements CommercialProjectService {
 
     @Override
     public CommercialProjectDTO updateCommercialProject(Long id, CommercialProjectDTO commercialProjectDTO) {
-        // TODO Auto-generated method stub
-        return null;
+        CommercialProject commercialProject = commercialProjectRepository.findOneById(id);
+        mapper.map(commercialProjectDTO, commercialProject);
+        commercialProject.setId(id);
+        
+        CommercialProject commercialProjectCreated = commercialProjectRepository.save(commercialProject);
+        if(commercialProjectCreated != null){
+            CommercialProjectDTO returnValue = new CommercialProjectDTO();
+            mapper.map(commercialProjectCreated, returnValue);
+            return returnValue;
+        }
+		return null;
     }
 
     @Override

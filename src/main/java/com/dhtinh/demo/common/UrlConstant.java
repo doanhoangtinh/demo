@@ -11,6 +11,7 @@ public class UrlConstant {
     public static final String  TRANSMISSIONMETHOD = ROOT + "/transmissionmethod";
     public static final String  LEVELDEVELOPMENT = ROOT + "/leveldevelopment";
     public static final String  PROJECT = ROOT + "/project";
+    public static final String  FILE = ROOT + "/fileupload";
     // public static final String  UPDATE_USER = ROOT + "/user/update-user";
     // public static final String  DELETE_USER = ROOT + "/user/delete-user";
     // public static final String  GET_USER = ROOT + "/user/get-user";

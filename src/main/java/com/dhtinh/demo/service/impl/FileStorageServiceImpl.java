@@ -31,7 +31,6 @@ public class FileStorageServiceImpl implements FileStorageService {
     @Override
     public void store(MultipartFile file) {
         try {
-            System.out.println(file.getSize());
             Files.copy(file.getInputStream(), this.root.resolve(file.getOriginalFilename()));
         } catch (Exception e) {
             e.printStackTrace();

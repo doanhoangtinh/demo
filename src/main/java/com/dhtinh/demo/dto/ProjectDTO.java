@@ -1,7 +1,7 @@
 package com.dhtinh.demo.dto;
 
 import java.sql.Date;
-
+import java.sql.Timestamp;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -26,7 +26,7 @@ public class ProjectDTO {
     private String email;
     private String author;
     private String website;
-    //private Date date;
+    private Timestamp date;
     private UserProfileDTO user;
     private UserProfileDTO inspector;
     private FieldDTO field;
