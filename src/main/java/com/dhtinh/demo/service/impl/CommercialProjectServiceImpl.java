@@ -12,6 +12,7 @@ import com.dhtinh.demo.repository.CommercialProjectRepository;
 import com.dhtinh.demo.service.CommercialProjectService;
 
 import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeMap;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,24 +29,24 @@ public class CommercialProjectServiceImpl implements CommercialProjectService {
         CommercialProject commercialProject = new CommercialProject();
         mapper.map(commercialProjectDTO, commercialProject);
         CommercialProject commercialProjectCreated = commercialProjectRepository.save(commercialProject);
-        if(commercialProjectCreated != null){
+        if (commercialProjectCreated != null) {
             CommercialProjectDTO returnValue = new CommercialProjectDTO();
             mapper.map(commercialProjectCreated, returnValue);
             return returnValue;
         }
-		return null;
+        return null;
     }
 
     @Override
     public void deleteCommercialProject(Long id) {
         // TODO Auto-generated method stub
-        
+
     }
 
     @Override
     public CommercialProjectDTO getCommercialProject(Long id) {
         CommercialProject commercialProject = commercialProjectRepository.findOneById(id);
-        if(commercialProject != null){
+        if (commercialProject != null) {
             CommercialProjectDTO returnValue = new CommercialProjectDTO();
             mapper.map(commercialProject, returnValue);
             return returnValue;
@@ -56,8 +57,10 @@ public class CommercialProjectServiceImpl implements CommercialProjectService {
     @Override
     public List<CommercialProjectDTO> getCommercialProjects() {
         List<CommercialProject> commercialProjects = commercialProjectRepository.findAll();
-        if(commercialProjects.size()>0){
-            List<CommercialProjectDTO> returnValue = mapper.map(commercialProjects, new TypeToken<List<CommercialProjectDTO>>(){}.getType());
+        if (commercialProjects.size() > 0) {
+            List<CommercialProjectDTO> returnValue = mapper.map(commercialProjects,
+                    new TypeToken<List<CommercialProjectDTO>>() {
+                    }.getType());
             return returnValue;
         }
         return null;
@@ -66,16 +69,21 @@ public class CommercialProjectServiceImpl implements CommercialProjectService {
     @Override
     public CommercialProjectDTO updateCommercialProject(Long id, CommercialProjectDTO commercialProjectDTO) {
         CommercialProject commercialProject = commercialProjectRepository.findOneById(id);
-        mapper.map(commercialProjectDTO, commercialProject);
-        commercialProject.setId(id);
+            mapper.typeMap(CommercialProjectDTO.class, CommercialProject.class).
+            addMappings(mapper -> {
+                    mapper.skip(CommercialProject::setId);
+                    mapper.skip(CommercialProject::setDate);
+                });
         
+        mapper.map(commercialProjectDTO, commercialProject);
+
         CommercialProject commercialProjectCreated = commercialProjectRepository.save(commercialProject);
-        if(commercialProjectCreated != null){
+        if (commercialProjectCreated != null) {
             CommercialProjectDTO returnValue = new CommercialProjectDTO();
             mapper.map(commercialProjectCreated, returnValue);
             return returnValue;
         }
-		return null;
+        return null;
     }
 
     @Override
@@ -84,12 +92,15 @@ public class CommercialProjectServiceImpl implements CommercialProjectService {
         mapper.map(userProfileDTO, userProfile);
         Status status = new Status();
         mapper.map(StatusDTO, status);
-        List<CommercialProject> commercialProjects = commercialProjectRepository.findByUserAndStatus(userProfile, status);
-        if(commercialProjects.size()>0){
-            List<CommercialProjectDTO> returnValue = mapper.map(commercialProjects, new TypeToken<List<CommercialProjectDTO>>(){}.getType());
+        List<CommercialProject> commercialProjects = commercialProjectRepository.findByUserAndStatus(userProfile,
+                status);
+        if (commercialProjects.size() > 0) {
+            List<CommercialProjectDTO> returnValue = mapper.map(commercialProjects,
+                    new TypeToken<List<CommercialProjectDTO>>() {
+                    }.getType());
             return returnValue;
         }
         return null;
     }
-    
+
 }

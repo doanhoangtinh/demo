@@ -7,8 +7,10 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.stream.Stream;
 
+import com.dhtinh.demo.config.GenerateDateTime;
 import com.dhtinh.demo.service.FileStorageService;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
@@ -16,6 +18,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 @Service
 public class FileStorageServiceImpl implements FileStorageService {
+    @Autowired
+    private GenerateDateTime generateDateTime;
 
     private final Path root = Paths.get("./uploads");
 
@@ -29,11 +33,17 @@ public class FileStorageServiceImpl implements FileStorageService {
     }
 
     @Override
-    public void store(MultipartFile file) {
+    public String store(MultipartFile file) {
         try {
-            Files.copy(file.getInputStream(), this.root.resolve(file.getOriginalFilename()));
+            String extension = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."),
+                    file.getOriginalFilename().length());
+            String fileName = generateDateTime.getString() + extension;
+            System.out.println(fileName);
+            Files.copy(file.getInputStream(), this.root.resolve(fileName));
+            return fileName;
         } catch (Exception e) {
             e.printStackTrace();
+            return null;
         }
     }
 
