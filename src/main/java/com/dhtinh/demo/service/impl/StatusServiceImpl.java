@@ -34,8 +34,7 @@ public class StatusServiceImpl implements StatusService {
 
     @Override
     public void deleteStatus(Long id) {
-       // statusRepository.delete();
-        
+       statusRepository.delete(statusRepository.findOneById(id));
     }
 
     @Override
@@ -61,8 +60,17 @@ public class StatusServiceImpl implements StatusService {
 
     @Override
     public StatusDTO updateStatus(Long id, StatusDTO statusDTO) {
-        // TODO Auto-generated method stub
-        return null;
+        mapper.typeMap(StatusDTO.class, Status.class).addMappings(mapper ->{
+            mapper.skip(Status::setId);
+        });
+        Status status = statusRepository.findOneById(id);
+        if(status == null) {
+            return null;
+        }
+        mapper.map(statusDTO, status);
+        Status statusUpdate = statusRepository.save(status);
+        StatusDTO returnValue = new StatusDTO();
+        mapper.map(statusUpdate, returnValue);
+        return returnValue;
     }
-   
 }
