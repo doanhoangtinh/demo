@@ -86,9 +86,9 @@ public class RoleController {
 			RoleDTO roleDTO = new RoleDTO();
 			mapper.map(roleRequestModel, roleDTO);
 			RoleDTO roleUpdated = roleService.updateRole(id, roleDTO);
-			RoleResponseModel userResponseModel = new RoleResponseModel();
-			mapper.map(roleUpdated, userResponseModel);
-			return ResponseEntity.ok().body(userResponseModel);
+			RoleResponseModel roleResponseModel = new RoleResponseModel();
+			mapper.map(roleUpdated, roleResponseModel);
+			return ResponseEntity.ok().body(roleResponseModel);
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
 		}
