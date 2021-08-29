@@ -63,8 +63,21 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public RoleDTO updateRole(Long id, RoleDTO roleDTO) {
-        // TODO Auto-generated method stub
-        return null;
+        try {
+            mapper.typeMap(RoleDTO.class, Role.class).addMappings(mapper -> {
+            mapper.skip(Role::setId);
+            });
+            Role role = roleRepository.findOneById(id);
+            mapper.map(roleDTO, role);
+            Role roleUpdated = roleRepository.save(role);
+            RoleDTO returnValue = new RoleDTO();
+            mapper.map(roleUpdated, returnValue);
+            return returnValue;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+        
     }
    
 }

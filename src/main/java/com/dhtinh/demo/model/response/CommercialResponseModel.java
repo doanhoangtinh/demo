@@ -9,7 +9,7 @@ import lombok.Data;
 public class CommercialResponseModel {
     private Long id;
     private String name;
-    //private String shortDescription;
+    private String shortDescription;
     private UserResponseModel user;
     private FieldResponseModel field;
     private StatusResponseModel status;

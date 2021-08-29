@@ -13,7 +13,7 @@ import lombok.Setter;
 @NoArgsConstructor
 public class CommercialRequestModel {
     private String name;
-    // private String shortDescription;
+    private String shortDescription;
     private Long user;
     private Long field;
     private Long status;

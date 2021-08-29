@@ -263,10 +263,10 @@ public class CommercialProjectController {
     }
 
     @CrossOrigin
-    @GetMapping("/status/{statusId}")
-    public ResponseEntity<List<CommercialResponseModel>> getCommercialProjects(@PathVariable Long statusId) {
+    @GetMapping("/status/{id}")
+    public ResponseEntity<List<CommercialResponseModel>> getCommercialProjects(@PathVariable Long id) {
         try {
-            StatusDTO statusDTO = statusService.getStatus(statusId);
+            StatusDTO statusDTO = statusService.getStatus(id);
             List<CommercialProjectDTO> commercialProjectDTOs = commercialProjectService
                     .getCommercialProjects(statusDTO);
             List<CommercialResponseModel> commercialResponseModels = mapper.map(commercialProjectDTOs,
