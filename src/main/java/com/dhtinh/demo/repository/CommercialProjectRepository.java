@@ -15,4 +15,5 @@ import org.springframework.stereotype.Repository;
 public interface CommercialProjectRepository extends JpaRepository<CommercialProject,Long> {
     public CommercialProject findOneById(Long id);
     public List<CommercialProject> findByUserAndStatus(UserProfile userProfile, Status status);
+    public List<CommercialProject> findByStatus(Status status);
 }

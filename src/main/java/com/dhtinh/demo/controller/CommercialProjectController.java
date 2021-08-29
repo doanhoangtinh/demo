@@ -137,6 +137,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -207,7 +208,8 @@ public class CommercialProjectController {
                 levelDevelopmentService.getLevelDevelopment(commercialRequestModel.getLevelDevelopment()));
         commercialProjectDTO.setTransmissionMethod(
                 transmissionMethodService.getTransmissionMethod(commercialRequestModel.getTransmissionMethod()));
-                CommercialProjectDTO commercialUpdated = commercialProjectService.updateCommercialProject(id, commercialProjectDTO);
+        CommercialProjectDTO commercialUpdated = commercialProjectService.updateCommercialProject(id,
+                commercialProjectDTO);
 
         if (commercialUpdated == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
@@ -258,6 +260,39 @@ public class CommercialProjectController {
                 new TypeToken<List<CommercialResponseModel>>() {
                 }.getType());
         return ResponseEntity.ok().body(commercialResponseModels);
+    }
+
+    @CrossOrigin
+    @GetMapping("/status/{statusId}")
+    public ResponseEntity<List<CommercialResponseModel>> getCommercialProjects(@PathVariable Long statusId) {
+        try {
+            StatusDTO statusDTO = statusService.getStatus(statusId);
+            List<CommercialProjectDTO> commercialProjectDTOs = commercialProjectService
+                    .getCommercialProjects(statusDTO);
+            List<CommercialResponseModel> commercialResponseModels = mapper.map(commercialProjectDTOs,
+                    new TypeToken<List<CommercialResponseModel>>() {
+                    }.getType());
+            return ResponseEntity.ok().body(commercialResponseModels);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        }
+
+    }
+
+    @CrossOrigin
+    @DeleteMapping
+    public ResponseEntity<Boolean> deleteCommercialProjects() {
+        commercialProjectService.deleteCommercialProjects();
+        return ResponseEntity.ok(true);
+    }
+    
+    @CrossOrigin
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Boolean> deleteCommercialProject(@PathVariable Long id) {
+        commercialProjectService.deleteCommercialProject(id);
+        return ResponseEntity.ok(true);
     }
 
     @GetMapping("/download/{filename:.+}")
