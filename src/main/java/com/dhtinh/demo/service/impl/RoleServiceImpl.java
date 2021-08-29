@@ -36,8 +36,7 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public void deleteRole(Long id) {
-        // TODO Auto-generated method stub
-        
+        roleRepository.delete(roleRepository.findOneById(id));
     }
 
     @Override
@@ -63,8 +62,18 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public RoleDTO updateRole(Long id, RoleDTO roleDTO) {
-        // TODO Auto-generated method stub
-        return null;
+       try {
+           mapper.typeMap(RoleDTO.class, Role.class).addMappings(mapper ->{
+               mapper.skip(Role::setId);
+           });
+           Role role = roleRepository.findOneById(id);
+           mapper.map(roleDTO, role);
+           Role roleUpdate = roleRepository.save(role);
+           RoleDTO returnValue = new RoleDTO();
+           mapper.map(roleUpdate, returnValue);
+           return returnValue;
+       } catch (Exception e) {
+           return null;
+       }
     }
-   
 }
