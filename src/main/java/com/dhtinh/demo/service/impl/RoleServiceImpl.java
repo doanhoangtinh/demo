@@ -20,30 +20,28 @@ public class RoleServiceImpl implements RoleService {
     @Autowired
     private ModelMapper mapper;
 
-
     @Override
     public RoleDTO createRole(RoleDTO roleDTO) {
         Role role = new Role();
         mapper.map(roleDTO, role);
         Role roleCreated = roleRepository.save(role);
-        if(roleCreated != null){
+        if (roleCreated != null) {
             RoleDTO returnValue = new RoleDTO();
             mapper.map(roleCreated, returnValue);
             return returnValue;
         }
-		return null;
+        return null;
     }
 
     @Override
     public void deleteRole(Long id) {
-        // TODO Auto-generated method stub
-        
+        roleRepository.delete(roleRepository.findOneById(id));
     }
 
     @Override
     public RoleDTO getRole(Long id) {
         Role role = roleRepository.findOneById(id);
-        if(role != null){
+        if (role != null) {
             RoleDTO returnValue = new RoleDTO();
             mapper.map(role, returnValue);
             return returnValue;
@@ -54,8 +52,9 @@ public class RoleServiceImpl implements RoleService {
     @Override
     public List<RoleDTO> getRoles() {
         List<Role> roles = roleRepository.findAll();
-        if(roles.size()>0){
-            List<RoleDTO> returnValue = mapper.map(roles, new TypeToken<List<RoleDTO>>(){}.getType());
+        if (roles.size() > 0) {
+            List<RoleDTO> returnValue = mapper.map(roles, new TypeToken<List<RoleDTO>>() {
+            }.getType());
             return returnValue;
         }
         return null;
@@ -77,7 +76,5 @@ public class RoleServiceImpl implements RoleService {
             e.printStackTrace();
             return null;
         }
-        
-    }
-   
+    }  
 }
