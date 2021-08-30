@@ -19,18 +19,17 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private ModelMapper mapper;
 
-
     @Override
     public UserDTO createUser(UserDTO userDTO) {
         User user = new User();
         mapper.map(userDTO, user);
         User userCreated = userRepository.save(user);
-        if(userCreated != null){
+        if (userCreated != null) {
             UserDTO returnValue = new UserDTO();
             mapper.map(userCreated, returnValue);
             return returnValue;
         }
-		return null;
+        return null;
     }
 
     @Override
@@ -47,8 +46,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDTO getUser(String username, String password) {
-        User user = userRepository.findOneByUsernameAndPassword(username,password);
-        if(user != null){
+        User user = userRepository.findOneByUsernameAndPassword(username, password);
+        if (user != null) {
             UserDTO returnValue = new UserDTO();
             mapper.map(user, returnValue);
             return returnValue;
@@ -59,8 +58,9 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<UserDTO> getUsers() {
         List<User> users = userRepository.findAll();
-        if(users.size()>0){
-            List<UserDTO> returnValue = mapper.map(users, new TypeToken<List<UserDTO>>(){}.getType());
+        if (users.size() > 0) {
+            List<UserDTO> returnValue = mapper.map(users, new TypeToken<List<UserDTO>>() {
+            }.getType());
             return returnValue;
         }
         return null;
@@ -68,8 +68,18 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDTO updateUser(Long id, UserDTO userDTO) {
-        // TODO Auto-generated method stub
-        return null;
+        mapper.typeMap(UserDTO.class, User.class).addMappings(mapper -> {
+            mapper.skip(User::setId);
+        });
+        User user = userRepository.findOneById(id);
+        if (user == null) {
+            return null;
+        }
+        mapper.map(userDTO, user);
+        User userUpdate = userRepository.save(user);
+        UserDTO returnValue = new UserDTO();
+        mapper.map(userUpdate, returnValue);
+        return returnValue;
     }
-    
+
 }
