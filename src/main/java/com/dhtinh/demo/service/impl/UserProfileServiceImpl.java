@@ -8,6 +8,7 @@ import com.dhtinh.demo.repository.UserProfileRepository;
 import com.dhtinh.demo.service.UserProfileService;
 
 import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,14 +21,20 @@ public class UserProfileServiceImpl implements UserProfileService {
 
     @Override
     public UserProfileDTO createUserProfile(UserProfileDTO userProfileDTO) {
-        // TODO Auto-generated method stub
+        UserProfile userProfile = new UserProfile();
+        mapper.map(userProfileDTO, userProfile);
+        UserProfile userProfileCreated = userProfileRepository.save(userProfile);
+        if(userProfileCreated != null){
+            UserProfileDTO returnValue = new UserProfileDTO();
+            mapper.map(userProfileCreated, returnValue);
+            return returnValue;
+        }
         return null;
     }
 
     @Override
     public void deleteUserProfile(Long id) {
-        // TODO Auto-generated method stub
-        
+        userProfileRepository.delete(userProfileRepository.findOneById(id));
     }
 
     @Override
@@ -43,14 +50,27 @@ public class UserProfileServiceImpl implements UserProfileService {
 
     @Override
     public List<UserProfileDTO> getUserProfiles() {
-        // TODO Auto-generated method stub
+        List<UserProfile> userProfiles = userProfileRepository.findAll();
+        if(userProfiles.size() > 0){
+            List<UserProfileDTO> returnValue = mapper.map(userProfiles, new TypeToken<List<UserProfileDTO>>(){}.getType());
+            return returnValue;
+        }
         return null;
     }
 
     @Override
     public UserProfileDTO updateUserProfile(Long id, UserProfileDTO userProfileDTO) {
-        // TODO Auto-generated method stub
-        return null;
+        mapper.typeMap(UserProfileDTO.class, UserProfile.class).addMappings(mapper -> {
+            mapper.skip(UserProfile::setId);
+        });
+        UserProfile userProfile = userProfileRepository.findOneById(id);
+        if(userProfile == null){
+            return null;
+        }
+        mapper.map(userProfileDTO, userProfile);
+        UserProfile userProfileUpdate = userProfileRepository.save(userProfile);
+        UserProfileDTO returnValue = new UserProfileDTO();
+        mapper.map(userProfileUpdate, returnValue);
+        return returnValue;
     }
-    
 }
