@@ -3,11 +3,14 @@ package com.dhtinh.demo.controller;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import static com.dhtinh.demo.common.UrlConstant.FILE;
 
 import com.dhtinh.demo.service.FileStorageService;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
@@ -32,20 +35,45 @@ public class FileController {
     @Autowired
     private FileStorageService fileStorageService;
 
-    @CrossOrigin
+    // @CrossOrigin
+    // @PostMapping
+    // public ResponseEntity<List<String>> fileUploadHandling(@RequestParam("files") MultipartFile[] files) {
+
+    //     List<String> url = new ArrayList<>();
+
+    //     for (MultipartFile multipartFile : files) {
+    //        String fileName = fileStorageService.store(multipartFile);
+    //         String uri = ServletUriComponentsBuilder.fromCurrentContextPath().path(FILE + "/download/")
+    //                 .path(fileName).toUriString();
+    //         url.add(uri);
+
+    //     }
+    //     return ResponseEntity.ok().body(url);
+    // }
+
+      @CrossOrigin
     @PostMapping
-    public ResponseEntity<List<String>> fileUploadHandling(@RequestParam("files") MultipartFile[] files) {
+    public String fileUploadHandling(@RequestParam("files") MultipartFile[] files) throws JsonProcessingException {
 
         List<String> url = new ArrayList<>();
-
+        String fileName = "";
+        String uri = "";
         for (MultipartFile multipartFile : files) {
-           String fileName = fileStorageService.store(multipartFile);
-            String uri = ServletUriComponentsBuilder.fromCurrentContextPath().path(FILE + "/download/")
+         fileName = fileStorageService.store(multipartFile);
+            uri = ServletUriComponentsBuilder.fromCurrentContextPath().path(FILE + "/download/")
                     .path(fileName).toUriString();
             url.add(uri);
 
         }
-        return ResponseEntity.ok().body(url);
+
+        HashMap<String,String> payload = new HashMap<>();
+	    payload.put("uploaded","1");
+	    payload.put("fileName",fileName);
+	    payload.put("url", uri);
+	    String json = new ObjectMapper().writeValueAsString(payload);
+	    return json;
+
+        //return ResponseEntity.ok().body(url);
     }
 
     @CrossOrigin
