@@ -53,12 +53,12 @@ public class FileController {
 
       @CrossOrigin
     @PostMapping
-    public String fileUploadHandling(@RequestParam("files") MultipartFile[] files) throws JsonProcessingException {
+    public String fileUploadHandling(@RequestParam("upload") MultipartFile[] upload) throws JsonProcessingException {
 
         List<String> url = new ArrayList<>();
         String fileName = "";
         String uri = "";
-        for (MultipartFile multipartFile : files) {
+        for (MultipartFile multipartFile : upload) {
          fileName = fileStorageService.store(multipartFile);
             uri = ServletUriComponentsBuilder.fromCurrentContextPath().path(FILE + "/download/")
                     .path(fileName).toUriString();
